@@ -1,0 +1,26 @@
+---
+services:
+  traefik:
+    image: traefik:${TRAEFIK_VERSION}
+    container_name: traefik
+    ports:
+      - 80:80
+      - 443:443
+      - 8081:8080
+      - 51820:51820/udp
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config/traefik.yml:/etc/traefik/traefik.yml:ro
+    environment:
+      - CF_DNS_API_TOKEN=${CF_DNS_TOKEN}
+    dns:
+      - 10.0.0.2
+    networks:
+      rproxy:
+        ipv4_address: 10.0.0.3
+    restart: unless-stopped
+
+networks:
+  rproxy:
+    external: true
+

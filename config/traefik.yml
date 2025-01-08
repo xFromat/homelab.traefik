@@ -1,0 +1,30 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+log:
+  level: DEBUG
+api:
+  dashboard: true
+  insecure: true
+entrypoints:
+  web:
+    address: :80
+  websecure:
+    address: :443
+  vpn:
+    address: :51820/udp
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+certificatesResolvers:
+  my-resolver:
+    acme:
+      email: my-email@example.com
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 1
+        resolvers:
+          - "1.1.1.1:53"
+
